@@ -8,22 +8,21 @@ x-default: &default
       max-size: "50m"
 
 services:
-  flame:
+  homer:
     <<: *default
 
-    container_name: flame
+    image: b4bz/homer
 
-    image: pawelmalak/flame
-
-    volumes:
-      - ./data/flame:/app/data
-      - /var/run/docker.sock:/var/run/docker.sock # optional but required for Docker integration
+    container_name: homer
 
     ports:
-      - 5005:5005
+      - 8080:8080
 
-    env_file:
-      - .env
+    user:
+      - 1000:1000
+
+    environment:
+      - INIT_ASSETS=1 # default
 
   # scrutiny:
   #   <<: *default
