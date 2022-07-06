@@ -1,0 +1,48 @@
+version: "3.4"
+
+x-default: &default
+  restart: always
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "50m"
+
+services:
+  flame:
+    <<: *default
+
+    container_name: flame
+
+    image: pawelmalak/flame
+
+    volumes:
+      - ./data/flame:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock # optional but required for Docker integration
+
+    ports:
+      - 5005:5005
+
+    env_file:
+      - .env
+
+  # scrutiny:
+  #   <<: *default
+
+  #   container_name: scrutiny
+
+  #   image: ghcr.io/analogj/scrutiny:master-omnibus
+
+  #   cap_add:
+  #     - SYS_RAWIO
+
+  #   ports:
+  #     - "8080:8080" # webapp
+  #     - "8086:8086" # influxDB admin
+
+  #   volumes:
+  #     - /run/udev:/run/udev:ro
+  #     - ./config:/opt/scrutiny/config
+  #     - ./influxdb:/opt/scrutiny/influxdb
+
+  #   devices:
+  #     - "/dev/sda"
