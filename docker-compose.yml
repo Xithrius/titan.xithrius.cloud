@@ -1,47 +1,44 @@
 version: "3.4"
 
 x-default: &default
-  restart: always
+  restart: unless-stopped
   logging:
     driver: "json-file"
     options:
       max-size: "50m"
 
 services:
-  homer:
+  flame:
     <<: *default
 
-    image: b4bz/homer
+    image: pawelmalak/flame
 
-    container_name: homer
+    container_name: flame
+
+    volumes:
+      - ./services/flame/data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
 
     ports:
-      - 8080:8080
+      - "5005:5005"
 
-    user:
-      - 1000:1000
+    env_file:
+      - .env
+
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+
+    container_name: jellyfin
 
     environment:
-      - INIT_ASSETS=1 # default
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angelos
 
-  # scrutiny:
-  #   <<: *default
+    volumes:
+      - ./services/jellyfin/config:/config
+      - ./services/jellyfin/tvshows:/data/tvshows
+      - ./services/jellyfin/movies:/data/movies
 
-  #   container_name: scrutiny
-
-  #   image: ghcr.io/analogj/scrutiny:master-omnibus
-
-  #   cap_add:
-  #     - SYS_RAWIO
-
-  #   ports:
-  #     - "8080:8080" # webapp
-  #     - "8086:8086" # influxDB admin
-
-  #   volumes:
-  #     - /run/udev:/run/udev:ro
-  #     - ./config:/opt/scrutiny/config
-  #     - ./influxdb:/opt/scrutiny/influxdb
-
-  #   devices:
-  #     - "/dev/sda"
+    ports:
+      - "8096:8096"
