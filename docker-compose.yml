@@ -23,17 +23,29 @@ services:
       - "5005:5005"
 
     env_file:
-      - .env
+      - .env # Only contains PASSWORD.
+
+  nextcloud:
+    <<: *default
+
+    image: nextcloud
+
+    container_name: nextcloud
+
+    ports:
+      - "8080:80"
 
   jellyfin:
+    <<: *default
+
     image: lscr.io/linuxserver/jellyfin:latest
 
     container_name: jellyfin
 
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Los_Angelos
+      PUID: 1000
+      PGID: 1000
+      TZ: "America/Los_Angelos"
 
     volumes:
       - ./services/jellyfin/config:/config
@@ -42,3 +54,36 @@ services:
 
     ports:
       - "8096:8096"
+
+  vscode:
+    <<: *default
+
+    image: gitpod/openvscode-server
+
+    container_name: vscode
+
+    ports:
+      - "3000:3000"
+
+    volumes:
+      - ./services/vscode:/home/workspace:cached
+
+  minecraft:
+    <<: *default
+
+    container_name: minecraft
+
+    image: itzg/minecraft-server
+
+    ports:
+      - "25565:25565"
+
+    environment:
+      EULA: "TRUE"
+
+    tty: true
+
+    stdin_open: true
+
+    volumes:
+      - ./services/minecraft:/data

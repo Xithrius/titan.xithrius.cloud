@@ -3,6 +3,7 @@
 Using RAID mirroring across 2x2tb hard drives, this home server has/will have the following stack of docker containers running as services:
 - [x] Dashboard: [flame](https://github.com/pawelmalak/flame)
 - [ ] HDD monitoring: [scrutiny](https://github.com/AnalogJ/scrutiny)
-- [ ] General storage: [nextcloud](https://github.com/nextcloud/server)
+- [x] General storage: [nextcloud](https://github.com/nextcloud/server)
 - [x] Media storage: [jellyfin](https://github.com/jellyfin/jellyfin)
-- [ ] Visual Studio Code server: [openvscode-server](https://github.com/gitpod-io/openvscode-server)
+- [x] Visual Studio Code server: [openvscode-server](https://github.com/gitpod-io/openvscode-server)
+- [x] Minecraft: [minecraft-server](https://hub.docker.com/r/itzg/minecraft-server/)
