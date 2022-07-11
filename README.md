@@ -5,5 +5,4 @@ Using RAID mirroring across 2x2tb hard drives, this home server has/will have th
 - [ ] HDD monitoring: [scrutiny](https://github.com/AnalogJ/scrutiny)
 - [x] General storage: [nextcloud](https://github.com/nextcloud/server)
 - [x] Media storage: [jellyfin](https://github.com/jellyfin/jellyfin)
-- [x] Visual Studio Code server: [openvscode-server](https://github.com/gitpod-io/openvscode-server)
 - [x] Minecraft: [minecraft-server](https://hub.docker.com/r/itzg/minecraft-server/)

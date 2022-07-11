@@ -16,7 +16,7 @@ services:
     container_name: flame
 
     volumes:
-      - ./services/flame/data:/app/data
+      - ./data/flame/data:/app/data
       - /var/run/docker.sock:/var/run/docker.sock
 
     ports:
@@ -48,25 +48,12 @@ services:
       TZ: "America/Los_Angelos"
 
     volumes:
-      - ./services/jellyfin/config:/config
-      - ./services/jellyfin/tvshows:/data/tvshows
-      - ./services/jellyfin/movies:/data/movies
+      - ./data/jellyfin/config:/config
+      - ./data/jellyfin/tvshows:/data/tvshows
+      - ./data/jellyfin/movies:/data/movies
 
     ports:
       - "8096:8096"
-
-  vscode:
-    <<: *default
-
-    image: gitpod/openvscode-server
-
-    container_name: vscode
-
-    ports:
-      - "3000:3000"
-
-    volumes:
-      - ./services/vscode:/home/workspace:cached
 
   minecraft:
     <<: *default
@@ -77,13 +64,28 @@ services:
 
     ports:
       - "25565:25565"
+      - "8123:8123"
 
     environment:
       EULA: "TRUE"
+      TYPE: "PAPER"
+      SPIGET_RESOURCES: "274" # dynmap
+      DIFFICULTY: "hard"
+      MOTD: "Xithrius's Paper Minecraft Server powered by Docker"
+      MODE: "survival"
+      VIEW_DISTANCE: 16
+      FORCE_GAMEMODE: true
+      ANNOUNCE_PLAYER_ACHIEVEMENTS: true
+      ENABLE_RCON: true
+      RCON_PORT: 25575 # Doesn't need to be set, just a reminder.
+      # RCON_PASSWORD is set in .env
+
+    env_file:
+      - .env
 
     tty: true
 
     stdin_open: true
 
     volumes:
-      - ./services/minecraft:/data
+      - ./data/minecraft:/data
