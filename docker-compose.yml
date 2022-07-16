@@ -79,6 +79,14 @@ services:
       ENABLE_RCON: "true"
       RCON_PORT: 25575 # Doesn't need to be set, just a reminder.
       # RCON_PASSWORD is set in .env
+      RCON_CMDS_STARTUP: |-
+        op Xithrius
+        whitelist on
+        whitelist add Xithrius
+        whitelist reload
+        scoreboard objectives add Deaths deathCount
+        scoreboard objectives setdisplay belowName Deaths
+        pregen start 200
 
     env_file:
       - .env
