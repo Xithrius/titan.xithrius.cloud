@@ -64,14 +64,13 @@ services:
 
     ports:
       - "25565:25565"
-      - "8123:8123"
 
     environment:
       EULA: "true"
-      TYPE: "PAPER"
-      SPIGET_RESOURCES: "274" # dynmap
+      TYPE: "FTBA"
+      FTB_MODPACK_ID: 96 # https://www.feed-the-beast.com/modpack/96_ftb_plexiglass_mountain
       DIFFICULTY: "hard"
-      MOTD: "Xithrius's Paper Minecraft Server powered by Docker"
+      MOTD: "Xithrius's FTB Plexiglass Mountain Minecraft Server."
       MODE: "survival"
       VIEW_DISTANCE: 16
       FORCE_GAMEMODE: "true"
