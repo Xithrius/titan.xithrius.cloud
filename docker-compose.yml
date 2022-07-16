@@ -67,7 +67,7 @@ services:
       - "8123:8123"
 
     environment:
-      EULA: "TRUE"
+      EULA: "true"
       TYPE: "PAPER"
       SPIGET_RESOURCES: "274" # dynmap
       DIFFICULTY: "hard"
@@ -77,6 +77,7 @@ services:
       FORCE_GAMEMODE: "true"
       ANNOUNCE_PLAYER_ACHIEVEMENTS: "true"
       ENABLE_RCON: "true"
+      ENFORCE_WHITELIST: "true"
       RCON_PORT: 25575 # Doesn't need to be set, just a reminder.
       # RCON_PASSWORD is set in .env
       RCON_CMDS_STARTUP: |-
