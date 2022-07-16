@@ -67,6 +67,7 @@ services:
 
     environment:
       EULA: "true"
+      MEMORY: "12G"
       TYPE: "FTBA"
       FTB_MODPACK_ID: 96 # https://www.feed-the-beast.com/modpack/96_ftb_plexiglass_mountain
       DIFFICULTY: "hard"
