@@ -74,9 +74,9 @@ services:
       MOTD: "Xithrius's Paper Minecraft Server powered by Docker"
       MODE: "survival"
       VIEW_DISTANCE: 16
-      FORCE_GAMEMODE: true
-      ANNOUNCE_PLAYER_ACHIEVEMENTS: true
-      ENABLE_RCON: true
+      FORCE_GAMEMODE: "true"
+      ANNOUNCE_PLAYER_ACHIEVEMENTS: "true"
+      ENABLE_RCON: "true"
       RCON_PORT: 25575 # Doesn't need to be set, just a reminder.
       # RCON_PASSWORD is set in .env
 
