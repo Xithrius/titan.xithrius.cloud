@@ -35,6 +35,28 @@ services:
     ports:
       - "8080:80"
 
+  postgres:
+    <<: *default
+
+    container_name: postgres
+
+    image: postgres:latest
+
+    init: true
+    restart: always
+
+    ports:
+      - "5432:5432"
+
+    expose:
+      - 5432
+
+    env_file:
+      - .env
+
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+
   jellyfin:
     <<: *default
 
@@ -69,6 +91,7 @@ services:
       EULA: "true"
       MEMORY: "10G"
       TYPE: "PAPER"
+      SPIGET_RESOURCES: "64270" # https://www.spigotmc.org/resources/simple-tpa.64270/
       DIFFICULTY: "hard"
       MOTD: "Xithrius's Minecraft Server Powered by Docker."
       MODE: "survival"
@@ -83,7 +106,6 @@ services:
         whitelist reload
         scoreboard objectives add Deaths deathCount
         scoreboard objectives setdisplay belowName Deaths
-        pregen start 200
 
     env_file:
       - .env
