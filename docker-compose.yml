@@ -25,6 +25,27 @@ services:
     env_file:
       - .env # Only contains PASSWORD.
 
+  postgres:
+    <<: *default
+
+    image: postgres
+
+    container_name: postgres
+
+    hostname: "nc-postgres"
+
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+
+    env_file:
+      - .env # POSTGRES_USER, POSTGRES_PASSWORD
+
+    ports:
+      - "5432:5432"
+
+    environment:
+      POSTGRES_DB: "nextcloud_db"
+
   nextcloud:
     <<: *default
 
@@ -35,27 +56,15 @@ services:
     ports:
       - "8080:80"
 
-  postgres:
-    <<: *default
-
-    container_name: postgres
-
-    image: postgres:latest
-
-    init: true
-    restart: always
-
-    ports:
-      - "5432:5432"
-
-    expose:
-      - 5432
-
     env_file:
-      - .env
+      - .env # POSTGRES_USER, POSTGRES_PASSWORD
 
-    volumes:
-      - ./data/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_HOST: "nc-postgres"
+      POSTGRES_DB: "nextcloud_db"
+
+    depends_on:
+      - postgres
 
   jellyfin:
     <<: *default
@@ -76,43 +85,3 @@ services:
 
     ports:
       - "8096:8096"
-
-  minecraft:
-    <<: *default
-
-    container_name: minecraft
-
-    image: itzg/minecraft-server
-
-    ports:
-      - "25565:25565"
-
-    environment:
-      EULA: "true"
-      MEMORY: "10G"
-      TYPE: "PAPER"
-      SPIGET_RESOURCES: "64270" # https://www.spigotmc.org/resources/simple-tpa.64270/
-      DIFFICULTY: "hard"
-      MOTD: "Xithrius's Minecraft Server Powered by Docker."
-      MODE: "survival"
-      VIEW_DISTANCE: 16
-      FORCE_GAMEMODE: "true"
-      ANNOUNCE_PLAYER_ACHIEVEMENTS: "true"
-      ENFORCE_WHITELIST: "true"
-      RCON_CMDS_STARTUP: |-
-        op Xithrius
-        whitelist on
-        whitelist add Xithrius
-        whitelist reload
-        scoreboard objectives add Deaths deathCount
-        scoreboard objectives setdisplay belowName Deaths
-
-    env_file:
-      - .env
-
-    tty: true
-
-    stdin_open: true
-
-    volumes:
-      - ./data/minecraft:/data
