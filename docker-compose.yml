@@ -8,23 +8,6 @@ x-default: &default
       max-size: "50m"
 
 services:
-  flame:
-    <<: *default
-
-    image: pawelmalak/flame
-
-    container_name: flame
-
-    volumes:
-      - ./data/flame/data:/app/data
-      - /var/run/docker.sock:/var/run/docker.sock
-
-    ports:
-      - "5005:5005"
-
-    env_file:
-      - .env # Only contains PASSWORD.
-
   postgres:
     <<: *default
 
@@ -62,6 +45,7 @@ services:
     environment:
       POSTGRES_HOST: "nc-postgres"
       POSTGRES_DB: "nextcloud_db"
+      NEXTCLOUD_TRUSTED_DOMAINS: drive.xithrius.cloud
 
     depends_on:
       - postgres
@@ -69,7 +53,7 @@ services:
   jellyfin:
     <<: *default
 
-    image: lscr.io/linuxserver/jellyfin:latest
+    image: jellyfin/jellyfin
 
     container_name: jellyfin
 
