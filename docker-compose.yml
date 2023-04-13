@@ -40,3 +40,46 @@ services:
 
     ports:
       - "8096:8096"
+
+  minecraft:
+    <<: *default
+
+    container_name: minecraft
+
+    image: itzg/minecraft-server
+
+    ports:
+      - "25565:25565"
+
+    environment:
+      EULA: "true"
+      MEMORY: "10G"
+      TYPE: "PUFFERFISH"
+      VERSION: "1.19"
+      SPIGET_RESOURCES: "9089"
+      DIFFICULTY: "hard"
+      MOTD: "Xithrius's Minecraft Server Powered by Docker."
+      MODE: "survival"
+      VIEW_DISTANCE: 16
+      FORCE_GAMEMODE: "true"
+      ANNOUNCE_PLAYER_ACHIEVEMENTS: "true"
+      ENFORCE_WHITELIST: "true"
+      SNOOPER_ENABLED: "false"
+      SPAWN_PROTECTION: 0
+      RCON_CMDS_STARTUP: |-
+        op Xithrius
+        whitelist on
+        whitelist add Xithrius
+        whitelist reload
+        scoreboard objectives add Deaths deathCount
+        scoreboard objectives setdisplay belowName Deaths
+
+    env_file:
+      - .env
+
+    tty: true
+
+    stdin_open: true
+
+    volumes:
+      - ./data/minecraft:/data
