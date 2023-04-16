@@ -49,14 +49,13 @@ services:
     image: itzg/minecraft-server
 
     ports:
-      - "25565:25565"
+      - ${SERVER_PORT}:${SERVER_PORT}
+      - ${RCON_PORT}:${RCON_PORT}
 
     environment:
       EULA: "true"
-      MEMORY: "10G"
       TYPE: "PUFFERFISH"
-      VERSION: "1.19"
-      SPIGET_RESOURCES: "9089"
+      VERSION: "1.19.3"
       DIFFICULTY: "hard"
       MOTD: "Xithrius's Minecraft Server Powered by Docker."
       MODE: "survival"
@@ -66,6 +65,7 @@ services:
       ENFORCE_WHITELIST: "true"
       SNOOPER_ENABLED: "false"
       SPAWN_PROTECTION: 0
+      JVM_DD_OPTS: "-Paper.bypassHostCheck true -paper.useLegacyPluginLoading true"
       RCON_CMDS_STARTUP: |-
         op Xithrius
         whitelist on
