@@ -27,9 +27,9 @@ services:
   jellyfin:
     <<: *default
 
-    image: jellyfin/jellyfin
-
     container_name: jellyfin
+
+    image: "jellyfin/jellyfin"
 
     environment:
       PUID: 1000
@@ -44,45 +44,19 @@ services:
     ports:
       - "8096:8096"
 
-  minecraft:
+  homeassistant:
     <<: *default
 
-    container_name: minecraft
+    container_name: homeassistant
 
-    image: itzg/minecraft-server
-
-    ports:
-      - ${SERVER_PORT}:${SERVER_PORT}
-      - ${RCON_PORT}:${RCON_PORT}
-
-    environment:
-      EULA: "true"
-      TYPE: "PAPER"
-      VERSION: "1.19.3"
-      DIFFICULTY: "hard"
-      MOTD: "Xithrius's Minecraft Server Powered by Docker."
-      MODE: "survival"
-      VIEW_DISTANCE: 16
-      FORCE_GAMEMODE: "true"
-      ANNOUNCE_PLAYER_ACHIEVEMENTS: "true"
-      ENFORCE_WHITELIST: "true"
-      SNOOPER_ENABLED: "false"
-      SPAWN_PROTECTION: 0
-      JVM_DD_OPTS: "-Paper.bypassHostCheck true -paper.useLegacyPluginLoading true"
-      RCON_CMDS_STARTUP: |-
-        op Xithrius
-        whitelist on
-        whitelist add Xithrius
-        whitelist reload
-        scoreboard objectives add Deaths deathCount
-        scoreboard objectives setdisplay belowName Deaths
-
-    env_file:
-      - .env
-
-    tty: true
-
-    stdin_open: true
+    image: "ghcr.io/home-assistant/home-assistant:stable"
 
     volumes:
-      - ./data/minecraft:/data
+      - /data/homeassistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+
+    # ports:
+    # - "8123:8123"
+
+    privileged: true
+    network_mode: host
