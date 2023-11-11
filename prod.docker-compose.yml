@@ -1,0 +1,35 @@
+version: "3.4"
+
+x-default: &default
+  restart: unless-stopped
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "50m"
+
+services:
+  minecraft:
+    <<: *default
+
+    image: itzg/minecraft-server
+
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+      - ${RCON_PORT}:${RCON_PORT}
+
+    env_file:
+      - .env
+
+    environment:
+      EULA: "TRUE"
+      TYPE: AUTO_CURSEFORGE
+      CF_SLUG: vault-hunters-1-18-2
+      CF_FILENAME_MATCHER: "Update-6H"
+      JVM_DD_OPTS: "-Paper.bypassHostCheck true -paper.useLegacyPluginLoading true"
+
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+
+    volumes:
+      - ./data:/data
