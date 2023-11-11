@@ -1,4 +1,4 @@
-version: "3.4"
+version: "3.8"
 
 x-default: &default
   restart: unless-stopped
@@ -13,7 +13,7 @@ services:
 
     image: itzg/minecraft-server
 
-    container: mc
+    container_name: mc
 
     tty: true
     stdin_open: true
@@ -26,15 +26,15 @@ services:
       - ${RCON_PORT}:${RCON_PORT}
 
     environment:
-      EULA: true
-      TYPE: PAPER
-      JVM_DD_OPTS: "-Paper.bypassHostCheck true -paper.useLegacyPluginLoading true"
+      EULA: "true"
       MOD_PLATFORM: AUTO_CURSEFORGE
       CF_API_KEY: ${CF_API_KEY}
       CF_PAGE_URL: https://www.curseforge.com/minecraft/modpacks/all-the-mods-9
       CF_FILENAME_MATCHER: "0.2.10"
-      CF_FORCE_SYNCHRONIZE: true
-      MEMORY: 8G
+      CF_FORCE_SYNCHRONIZE: "true"
+      CF_EXCLUDE_MODS: |
+        embeddium
+      MEMORY: 12G
 
     volumes:
       - ./data:/data
