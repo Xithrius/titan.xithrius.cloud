@@ -8,28 +8,37 @@ x-default: &default
       max-size: "50m"
 
 services:
-  minecraft:
+  mc:
     <<: *default
 
     image: itzg/minecraft-server
+
+    container: mc
+
+    tty: true
+    stdin_open: true
+
+    env_file:
+      - .env
 
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
       - ${RCON_PORT}:${RCON_PORT}
 
-    env_file:
-      - .env
-
     environment:
-      EULA: "TRUE"
-      TYPE: AUTO_CURSEFORGE
-      CF_SLUG: vault-hunters-1-18-2
-      CF_FILENAME_MATCHER: "Update-6H"
+      EULA: true
+      TYPE: PAPER
       JVM_DD_OPTS: "-Paper.bypassHostCheck true -paper.useLegacyPluginLoading true"
-
-    tty: true
-    stdin_open: true
-    restart: unless-stopped
+      MOD_PLATFORM: AUTO_CURSEFORGE
+      CF_API_KEY: ${CF_API_KEY}
+      CF_PAGE_URL: https://www.curseforge.com/minecraft/modpacks/all-the-mods-9
+      CF_FILENAME_MATCHER: "0.2.10"
+      CF_FORCE_SYNCHRONIZE: true
+      MEMORY: 8G
 
     volumes:
       - ./data:/data
+      - ./downloads:/downloads
+
+volumes:
+  mc: {}
