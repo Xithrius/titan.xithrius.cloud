@@ -9,6 +9,7 @@
 `prod.docker-compose.yml`:
 
 - [x] [minecraft-server](https://github.com/itzg/docker-minecraft-server)
+- [x] [bungeecord](https://github.com/itzg/bungeecord)
 - [ ] [docker-mc-backup](https://github.com/itzg/docker-mc-backup)
 
 

@@ -8,6 +8,29 @@ x-default: &default
       max-size: "50m"
 
 services:
+  velocity:
+    <<: *default
+
+    container_name: velocity
+
+    image: itzg/bungeecord
+
+    env_file:
+      - .env
+
+    ports:
+      - "${MC_MODDED_SERVER_PORT}:${MC_MODDED_PROXY_PORT}"
+
+    environment:
+      TYPE: "VELOCITY"
+      DEBUG: "false"
+      ENABLE_RCON: "true"
+      CFG_MOTD: "Powered by Docker"
+
+    volumes:
+      - ./services/velocity/config.yml:/config/config.yml
+      - ./data/velocity/proxy:/server
+
   mc-modded:
     <<: *default
 
@@ -27,6 +50,7 @@ services:
 
     environment:
       EULA: "true"
+      ONLINE_MODE: "FALSE"
       MOD_PLATFORM: AUTO_CURSEFORGE
       CF_API_KEY: ${CF_API_KEY}
       CF_PAGE_URL: https://www.curseforge.com/minecraft/modpacks/all-the-mods-9
@@ -59,8 +83,8 @@ services:
 
     environment:
       EULA: "true"
-      TYPE: PAPER
-      MEMORY: 12G
+      TYPE: "PAPER"
+      MEMORY: "12G"
 
     volumes:
       - ./data/mc/data/:/data
@@ -68,3 +92,4 @@ services:
 volumes:
   mc-modded: {}
   mc: {}
+  velocity-proxy: {}
