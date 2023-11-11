@@ -8,6 +8,38 @@ x-default: &default
       max-size: "50m"
 
 services:
+  mc-modded:
+    <<: *default
+
+    image: itzg/minecraft-server
+
+    container_name: mc-modded
+
+    tty: true
+    stdin_open: true
+
+    env_file:
+      - .env
+
+    ports:
+      - ${MC_MODDED_SERVER_PORT}:${MC_MODDED_SERVER_PORT}
+      - ${MC_MODDED_RCON_PORT}:${MC_MODDED_RCON_PORT}
+
+    environment:
+      EULA: "true"
+      MOD_PLATFORM: AUTO_CURSEFORGE
+      CF_API_KEY: ${CF_API_KEY}
+      CF_PAGE_URL: https://www.curseforge.com/minecraft/modpacks/all-the-mods-9
+      CF_FILENAME_MATCHER: "0.2.10"
+      CF_FORCE_SYNCHRONIZE: "true"
+      CF_EXCLUDE_MODS: |
+        embeddium
+      MEMORY: 12G
+
+    volumes:
+      - ./data/mc-modded/data/:/data
+      - ./data/mc-modded/downloads:/downloads
+
   mc:
     <<: *default
 
@@ -22,23 +54,17 @@ services:
       - .env
 
     ports:
-      - ${SERVER_PORT}:${SERVER_PORT}
-      - ${RCON_PORT}:${RCON_PORT}
+      - ${MC_SERVER_PORT}:${MC_SERVER_PORT}
+      - ${MC_RCON_PORT}:${MC_RCON_PORT}
 
     environment:
       EULA: "true"
-      MOD_PLATFORM: AUTO_CURSEFORGE
-      CF_API_KEY: ${CF_API_KEY}
-      CF_PAGE_URL: https://www.curseforge.com/minecraft/modpacks/all-the-mods-9
-      CF_FILENAME_MATCHER: "0.2.10"
-      CF_FORCE_SYNCHRONIZE: "true"
-      CF_EXCLUDE_MODS: |
-        embeddium
+      TYPE: PAPER
       MEMORY: 12G
 
     volumes:
-      - ./data:/data
-      - ./downloads:/downloads
+      - ./data/mc/data/:/data
 
 volumes:
+  mc-modded: {}
   mc: {}
