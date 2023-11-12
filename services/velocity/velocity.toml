@@ -72,20 +72,15 @@ enable-player-address-logging = true
 [servers]
 # Configure your servers here. Each key represents the server's name, and the value
 # represents the IP address of the server to connect to.
-ftb = "mc-modded:25585"
-mc = "mc:25575"
+mc = "mc:25567"
 
 # In what order we should try servers when a player logs in or is kicked from a server.
 try = [
-    "ftb",
     "mc"
 ]
 
 [forced-hosts]
 # Configure your forced hosts here.
-"ftb.xithrius.cloud" = [
-    "ftb"
-]
 "mc.xithrius.cloud" = [
     "mc"
 ]
@@ -112,10 +107,10 @@ read-timeout = 30000
 
 # Enables compatibility with HAProxy's PROXY protocol. If you don't know what this is for, then
 # don't enable it.
-haproxy-protocol = false
+haproxy-protocol = true
 
 # Enables TCP fast open support on the proxy. Requires the proxy to run on Linux.
-tcp-fast-open = false
+tcp-fast-open = true
 
 # Enables BungeeCord plugin messaging channel support on Velocity.
 bungee-plugin-message-channel = true

@@ -20,11 +20,11 @@ disabled_commands:
 servers:
   ftb:
     motd: "&1Just another BungeeCord - Forced Host"
-    address: mc-modded:25585
+    address: mc-modded:25566
     restricted: false
   mc:
     motd: "&1Just another BungeeCord - Forced Host"
-    address: mc:25575
+    address: mc:25567
     restricted: false
 listeners:
   - query_port: 25577
