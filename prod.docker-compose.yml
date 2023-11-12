@@ -19,16 +19,17 @@ services:
       - .env
 
     ports:
-      - "${MC_MODDED_SERVER_PORT}:${MC_MODDED_PROXY_PORT}"
+      - "25565:25577"
 
     environment:
       TYPE: "VELOCITY"
       DEBUG: "false"
-      ENABLE_RCON: "true"
+      ENABLE_RCON: "false"
       CFG_MOTD: "Powered by Docker"
 
     volumes:
       - ./services/velocity/config.yml:/config/config.yml
+      - ./services/velocity/velocity.toml:/config/velocity.toml
       - ./data/velocity/proxy:/server
 
   mc-modded:
@@ -45,12 +46,12 @@ services:
       - .env
 
     ports:
-      - ${MC_MODDED_SERVER_PORT}:${MC_MODDED_SERVER_PORT}
-      - ${MC_MODDED_RCON_PORT}:${MC_MODDED_RCON_PORT}
+      - "25585:25585"
 
     environment:
       EULA: "true"
-      ONLINE_MODE: "FALSE"
+      ONLINE_MODE: "TRUE"
+      SERVER_PORT: "25585"
       MOD_PLATFORM: AUTO_CURSEFORGE
       CF_API_KEY: ${CF_API_KEY}
       CF_PAGE_URL: https://www.curseforge.com/minecraft/modpacks/all-the-mods-9
@@ -74,22 +75,20 @@ services:
     tty: true
     stdin_open: true
 
-    env_file:
-      - .env
-
     ports:
-      - ${MC_SERVER_PORT}:${MC_SERVER_PORT}
-      - ${MC_RCON_PORT}:${MC_RCON_PORT}
+      - "25575:25575"
 
     environment:
-      EULA: "true"
-      TYPE: "PAPER"
+      EULA: "TRUE"
+      ONLINE_MODE: "FALSE"
+      SERVER_PORT: "25575"
+      VERSION: "1.20.1"
       MEMORY: "12G"
 
     volumes:
       - ./data/mc/data/:/data
 
 volumes:
+  velocity: {}
   mc-modded: {}
   mc: {}
-  velocity-proxy: {}
