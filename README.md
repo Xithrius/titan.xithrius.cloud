@@ -3,13 +3,13 @@
 `dev.docker-compose.yml`:
 
 - [x] [PostgreSQL](https://www.postgresql.org/)
-- [x] [jellyfin](https://github.com/jellyfin/jellyfin)
 - [x] [home-assistant](https://github.com/home-assistant/core)
 
 `prod.docker-compose.yml`:
 
-- [x] [minecraft-server](https://github.com/itzg/docker-minecraft-server)
-- [x] [bungeecord](https://github.com/itzg/bungeecord)
+- [x] [vanilla-mc](https://github.com/itzg/docker-minecraft-server)
+- [x] [modded-mc](https://github.com/itzg/docker-minecraft-server)
+- [x] [jellyfin](https://github.com/jellyfin/jellyfin)
 - [ ] [docker-mc-backup](https://github.com/itzg/docker-mc-backup)
 
 

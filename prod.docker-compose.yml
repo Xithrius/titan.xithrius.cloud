@@ -81,3 +81,26 @@ services:
 
     ports:
       - "25565:25565"
+
+  jellyfin:
+    <<: *default
+
+    container_name: jellyfin
+
+    image: "jellyfin/jellyfin"
+
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: "America/Los_Angelos"
+
+    volumes:
+      - ./data/jellyfin/config:/config
+      - ./data/jellyfin/tvshows:/data/tvshows
+      - ./data/jellyfin/movies:/data/movies
+      - ./data/jellyfin/pictures:/data/pictures
+      - ./data/jellyfin/memes-images:/data/memes-images
+      - ./data/jellyfin/memes-videos:/data/memes-videos
+
+    ports:
+      - "8096:8096"
