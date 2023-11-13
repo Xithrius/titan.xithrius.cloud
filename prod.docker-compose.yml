@@ -8,69 +8,12 @@ x-default: &default
       max-size: "50m"
 
 services:
-  velocity:
-    <<: *default
-
-    container_name: velocity
-
-    image: itzg/bungeecord
-
-    env_file:
-      - .env
-
-    ports:
-      - "25565:25577"
-
-    environment:
-      TYPE: "VELOCITY"
-      DEBUG: "false"
-      ENABLE_RCON: "false"
-      CFG_MOTD: "Powered by Docker"
-
-    volumes:
-      - ./services/velocity/config.yml:/config/config.yml
-      - ./services/velocity/velocity.toml:/config/velocity.toml
-      - ./data/velocity/proxy:/server
-
-  mc-modded:
+  vanilla-mc:
     <<: *default
 
     image: itzg/minecraft-server
 
-    container_name: mc-modded
-
-    tty: true
-    stdin_open: true
-
-    env_file:
-      - .env
-
-    ports:
-      - "25566:25566"
-
-    environment:
-      EULA: "true"
-      ONLINE_MODE: "TRUE"
-      SERVER_PORT: "25566"
-      MOD_PLATFORM: AUTO_CURSEFORGE
-      CF_API_KEY: ${CF_API_KEY}
-      CF_PAGE_URL: https://www.curseforge.com/minecraft/modpacks/all-the-mods-9
-      CF_FILENAME_MATCHER: "0.2.10"
-      CF_FORCE_SYNCHRONIZE: "true"
-      CF_EXCLUDE_MODS: |
-        embeddium
-      MEMORY: 12G
-
-    volumes:
-      - ./data/mc-modded/data/:/data
-      - ./data/mc-modded/downloads:/downloads
-
-  mc:
-    <<: *default
-
-    image: itzg/minecraft-server
-
-    container_name: mc
+    container_name: vanilla-mc
 
     tty: true
     stdin_open: true
@@ -81,15 +24,60 @@ services:
     environment:
       EULA: "TRUE"
       TYPE: "PAPER"
-      ONLINE_MODE: "FALSE"
       SERVER_PORT: "25567"
       VERSION: "1.20.1"
       MEMORY: "12G"
 
     volumes:
-      - ./data/mc/data/:/data
+      - ./data/vanilla-mc/data/:/data
 
-volumes:
-  velocity: {}
-  mc-modded: {}
-  mc: {}
+  modded-mc:
+    <<: *default
+
+    image: itzg/minecraft-server
+
+    container_name: modded-mc
+
+    tty: true
+    stdin_open: true
+
+    env_file:
+      - .env
+
+    ports:
+      - "25568:25568"
+
+    environment:
+      EULA: "true"
+      SERVER_PORT: "25568"
+      MOD_PLATFORM: AUTO_CURSEFORGE
+      CF_API_KEY: ${CF_API_KEY}
+      CF_PAGE_URL: https://www.curseforge.com/minecraft/modpacks/all-the-mods-9
+      CF_FILENAME_MATCHER: "0.2.10"
+      CF_FORCE_SYNCHRONIZE: "true"
+      CF_EXCLUDE_MODS: |
+        embeddium
+      MEMORY: 12G
+
+    volumes:
+      - ./data/modded-mc/data/:/data
+      - ./data/modded-mc/downloads:/downloads
+
+  mc-router:
+    <<: *default
+
+    image: itzg/mc-router
+
+    container_name: mc-router
+
+    depends_on:
+      - vanilla-mc
+      - modded-mc
+
+    environment:
+      MAPPING: |
+        vanilla-mc.xithrius.cloud=vanilla-mc:25567
+        modded-mc.xithrius.cloud=modded-mc:25568
+
+    ports:
+      - "25565:25565"
