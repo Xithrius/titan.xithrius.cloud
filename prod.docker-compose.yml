@@ -21,12 +21,20 @@ services:
     ports:
       - "25567:25567"
 
+    env_file:
+      - .env
+
     environment:
       EULA: "TRUE"
       TYPE: "PAPER"
       SERVER_PORT: "25567"
       VERSION: "1.20.1"
       MEMORY: "12G"
+      VIEW_DISTANCE: 16
+      WHITELIST: |
+        xithrius
+      OPS: |
+        xithrius
 
     volumes:
       - ./data/vanilla-mc/data/:/data
@@ -51,7 +59,6 @@ services:
       EULA: "true"
       SERVER_PORT: "25568"
       MOD_PLATFORM: AUTO_CURSEFORGE
-      CF_API_KEY: ${CF_API_KEY}
       CF_PAGE_URL: https://www.curseforge.com/minecraft/modpacks/all-the-mods-9
       CF_FILENAME_MATCHER: "0.2.10"
       CF_FORCE_SYNCHRONIZE: "true"
