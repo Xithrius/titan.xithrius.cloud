@@ -31,10 +31,6 @@ services:
       VERSION: "1.20.1"
       MEMORY: "12G"
       VIEW_DISTANCE: 16
-      WHITELIST: |
-        xithrius
-      OPS: |
-        xithrius
 
     volumes:
       - ./data/vanilla-mc/data/:/data
@@ -60,10 +56,8 @@ services:
       SERVER_PORT: "25568"
       MOD_PLATFORM: AUTO_CURSEFORGE
       CF_PAGE_URL: https://www.curseforge.com/minecraft/modpacks/all-the-mods-9
-      CF_FILENAME_MATCHER: "0.2.10"
+      CF_FILENAME_MATCHER: "0.2.23"
       CF_FORCE_SYNCHRONIZE: "true"
-      CF_EXCLUDE_MODS: |
-        embeddium
       MEMORY: 12G
 
     volumes:
@@ -99,7 +93,7 @@ services:
     environment:
       PUID: 1000
       PGID: 1000
-      TZ: "America/Los_Angelos"
+      TZ: "America/Los_Angeles"
 
     volumes:
       - ./data/jellyfin/config:/config
