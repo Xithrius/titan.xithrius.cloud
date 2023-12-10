@@ -56,7 +56,7 @@ services:
       SERVER_PORT: "25568"
       MOD_PLATFORM: AUTO_CURSEFORGE
       CF_PAGE_URL: https://www.curseforge.com/minecraft/modpacks/all-the-mods-9
-      CF_FILENAME_MATCHER: "0.2.23"
+      CF_FILENAME_MATCHER: "0.2.28"
       CF_FORCE_SYNCHRONIZE: "true"
       MEMORY: 12G
 
@@ -93,7 +93,7 @@ services:
     environment:
       PUID: 1000
       PGID: 1000
-      TZ: "America/Los_Angeles"
+      TZ: "America/Los_Angelos"
 
     volumes:
       - ./data/jellyfin/config:/config
@@ -105,3 +105,42 @@ services:
 
     ports:
       - "8096:8096"
+
+  netdata:
+    <<: *default
+
+    image: netdata/netdata
+
+    container_name: netdata
+
+    pid: host
+
+    network_mode: host
+
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+
+    security_opt:
+      - apparmor:unconfined
+
+    volumes:
+      - ./data/netdata/config:/etc/netdata
+      - netdatalib:/var/lib/netdata
+      - netdatacache:/var/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /var/log:/host/var/log:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /run/dbus:/run/dbus:r
+
+    ports:
+      - "19999:19999"
+
+volumes:
+  netdatalib:
+  netdatacache:

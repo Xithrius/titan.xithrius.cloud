@@ -10,6 +10,7 @@
 - [x] [vanilla-mc](https://github.com/itzg/docker-minecraft-server)
 - [x] [modded-mc](https://github.com/itzg/docker-minecraft-server)
 - [x] [jellyfin](https://github.com/jellyfin/jellyfin)
+- [x] [netdata](https://github.com/netdata/netdata)
 - [ ] [docker-mc-backup](https://github.com/itzg/docker-mc-backup)
 
 
