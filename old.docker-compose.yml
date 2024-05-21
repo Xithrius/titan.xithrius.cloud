@@ -1,0 +1,174 @@
+x-default: &default
+  restart: unless-stopped
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "50m"
+
+services:
+  vanilla-mc:
+    <<: *default
+
+    image: itzg/minecraft-server
+
+    container_name: vanilla-mc
+
+    tty: true
+    stdin_open: true
+
+    ports:
+      - "127.0.0.1:25567:25567"
+
+    env_file:
+      - .env
+
+    environment:
+      EULA: "TRUE"
+      TYPE: "PAPER"
+      SERVER_PORT: "25567"
+      VERSION: "1.20.1"
+      MEMORY: "12G"
+      VIEW_DISTANCE: 16
+
+    volumes:
+      - ./data/vanilla-mc/data/:/data
+
+  modded-mc:
+    <<: *default
+
+    image: itzg/minecraft-server
+
+    container_name: modded-mc
+
+    tty: true
+    stdin_open: true
+
+    env_file:
+      - .env
+
+    ports:
+      - "127.0.0.1:25568:25568"
+
+    environment:
+      EULA: "true"
+      SERVER_PORT: "25568"
+      MOD_PLATFORM: AUTO_CURSEFORGE
+      CF_PAGE_URL: https://www.curseforge.com/minecraft/modpacks/all-the-mods-9
+      CF_FILENAME_MATCHER: "0.2.28"
+      CF_FORCE_SYNCHRONIZE: "true"
+      MEMORY: 12G
+
+    volumes:
+      - ./data/modded-mc/data/:/data
+      - ./data/modded-mc/downloads:/downloads
+
+  mc-router:
+    <<: *default
+
+    image: itzg/mc-router
+
+    container_name: mc-router
+
+    depends_on:
+      - vanilla-mc
+      - modded-mc
+
+    environment:
+      MAPPING: |
+        vanilla-mc.xithrius.cloud=vanilla-mc:25567
+        modded-mc.xithrius.cloud=modded-mc:25568
+
+    ports:
+      - "127.0.0.1:25565:25565"
+
+  jellyfin:
+    <<: *default
+
+    container_name: jellyfin
+
+    image: "jellyfin/jellyfin"
+
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: "America/Los_Angelos"
+
+    volumes:
+      - ./data/jellyfin/config:/config
+      - ./data/jellyfin/tvshows:/data/tvshows
+      - ./data/jellyfin/movies:/data/movies
+      - ./data/jellyfin/pictures:/data/pictures
+      - ./data/jellyfin/memes-images:/data/memes-images
+      - ./data/jellyfin/memes-videos:/data/memes-videos
+
+    ports:
+      - "127.0.0.1:8096:8096"
+
+  netdata:
+    <<: *default
+
+    image: netdata/netdata
+
+    container_name: netdata
+
+    pid: host
+
+    network_mode: host
+
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+
+    security_opt:
+      - apparmor:unconfined
+
+    volumes:
+      - ./data/netdata/config:/etc/netdata
+      - netdatalib:/var/lib/netdata
+      - netdatacache:/var/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /var/log:/host/var/log:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /run/dbus:/run/dbus:r
+
+    ports:
+      - "127.0.0.1:19999:19999"
+
+  postgres:
+    <<: *default
+
+    container_name: postgres
+
+    image: "postgres:latest"
+
+    ports:
+      - "127.0.0.1:7777:5432"
+
+    env_file:
+      - .env
+
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
+  homeassistant:
+    <<: *default
+
+    container_name: homeassistant
+
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+
+    volumes:
+      - /data/homeassistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+
+    privileged: true
+    network_mode: host
+
+volumes:
+  netdatalib:
+  netdatacache:
