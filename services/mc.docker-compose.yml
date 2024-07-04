@@ -62,21 +62,21 @@ services:
       - ./data/minecraft/instances/modded-mc/data/:/data
       - ./data/minecraft/instances/modded-mc/downloads:/downloads
 
-  # mc-router:
-  #   <<: *default
+  mc-router:
+    <<: *default
 
-  #   image: itzg/mc-router
+    image: itzg/mc-router
 
-  #   container_name: mc-router
+    container_name: mc-router
 
-  #   depends_on:
-  #     - vanilla-mc
-  #     - modded-mc
+    depends_on:
+      - modded-mc
+      # - vanilla-mc
 
-  #   environment:
-  #     MAPPING: |
-  #       vanilla-mc.xithrius.cloud=vanilla-mc:25567
-  #       modded-mc.xithrius.cloud=modded-mc:25568
+    environment:
+      MAPPING: |
+        modded-mc.xithrius.cloud=modded-mc:25568
+      # vanilla-mc.xithrius.cloud=vanilla-mc:25567
 
-  #   ports:
-  #     - "127.0.0.1:25565:25565"
+    ports:
+      - "127.0.0.1:25565:25565"
