@@ -57,10 +57,15 @@ services:
       CF_FILENAME_MATCHER: "0.2.61"
       CF_FORCE_SYNCHRONIZE: "true"
       MEMORY: "12G"
+      EXISTING_OPS_FILE: "SYNCHRONIZE"
+      OPS: |
+        xithrius
+      EXISTING_WHITELIST_FILE: "SYNCHRONIZE"
+      WHITELIST_FILE: "/whitelist.json"
 
     volumes:
       - ./data/minecraft/instances/modded-mc/data/:/data
-      - ./data/minecraft/instances/modded-mc/downloads:/downloads
+      - ./config/minecraft/instances/modded-mc/whitelist.json:/whitelist.json
 
   mc-router:
     <<: *default
