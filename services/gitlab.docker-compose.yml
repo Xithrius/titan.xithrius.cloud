@@ -9,22 +9,22 @@ services:
   gitlab:
     <<: *default
 
-    image: 'docker.io/gitlab/gitlab-ce:latest'
+    image: "docker.io/gitlab/gitlab-ce:latest"
 
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         gitlab_rails['gitlab_shell_ssh_port'] = 2224
 
     ports:
-      - '0.0.0.0:8929:80'
-      - '0.0.0.0:2224:22'
+      - "127.0.0.1:8929:80"
+      - "127.0.0.1:2224:22"
 
     volumes:
-      - '$GITLAB_HOME/config:/etc/gitlab'
-      - '$GITLAB_HOME/logs:/var/log/gitlab'
-      - '$GITLAB_HOME/data:/var/opt/gitlab'
+      - "$GITLAB_HOME/config:/etc/gitlab"
+      - "$GITLAB_HOME/logs:/var/log/gitlab"
+      - "$GITLAB_HOME/data:/var/opt/gitlab"
 
-    shm_size: '256m'
+    shm_size: "256m"
 
     networks:
       - gitlab
