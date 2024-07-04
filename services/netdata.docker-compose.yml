@@ -39,7 +39,7 @@ services:
       - /run/dbus:/run/dbus:r
 
     ports:
-      - "127.0.0.1:19999:19999"
+      - "0.0.0.0:19999:19999"
 
 volumes:
   netdatalib:

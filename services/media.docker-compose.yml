@@ -14,7 +14,7 @@ services:
     image: "postgres:16-alpine"
 
     ports:
-      - "127.0.0.1:7777:5432"
+      - "0.0.0.0:7777:5432"
 
     env_file:
       - .env
@@ -43,7 +43,7 @@ services:
       - ./data/jellyfin/memes-videos:/data/memes-videos
 
     ports:
-      - "8096:8096"
+      - "0.0.0.0:8096:8096"
 
   homeassistant:
     <<: *default
