@@ -59,7 +59,7 @@ services:
       MEMORY: "12G"
       EXISTING_OPS_FILE: "SYNCHRONIZE"
       OPS: |
-        xithrius
+        Xithrius
       EXISTING_WHITELIST_FILE: "SYNCHRONIZE"
       WHITELIST_FILE: "/whitelist.json"
 
@@ -84,4 +84,4 @@ services:
       # vanilla-mc.xithrius.cloud=vanilla-mc:25567
 
     ports:
-      - "127.0.0.1:25565:25565"
+      - "25565:25565"
