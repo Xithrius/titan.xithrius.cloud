@@ -2,17 +2,15 @@
 
 ## Services
 
-- `gitlab.docker-compose.yml`
-  - [`gitlab`](https://hub.docker.com/r/gitlab/gitlab-ce)
+- `db.docker-compose.yml`
+  - [`PostgreSQL`](https://www.postgresql.org/)
+- `git.docker-compose.yml`
+  - [`gitea`](https://about.gitea.com/)
 - `mc.docker-compose.yml`
   - [`vanilla-mc`](https://github.com/itzg/docker-minecraft-server)
   - [`modded-mc`](https://github.com/itzg/docker-minecraft-server) running [ATM9](https://www.curseforge.com/minecraft/modpacks/all-the-mods-9)
   - [`mc-router`](https://github.com/itzg/mc-router)
-- `media.docker-compose.yml`
-  - [`PostgreSQL`](https://www.postgresql.org/)
-  - [`jellyfin`](https://github.com/jellyfin/jellyfin)
-  - [`home-assistant`](https://github.com/home-assistant/core)
-- `netdata.docker-compose.yml`
+- `monitor.docker-compose.yml`
   - [`netdata`](https://github.com/netdata/netdata)
 
 ## Setup

@@ -1,0 +1,45 @@
+x-default: &default
+  restart: unless-stopped
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "50m"
+
+services:
+  gitea:
+    <<: *default
+
+    image: "gitea/gitea:1.22.1"
+
+    container_name: gitea
+
+    env_file:
+      - .env
+
+    environment:
+      - USER_UID=116
+      - USER_GID=122
+      - GITEA__database__DB_TYPE=postgres
+      - GITEA__database__HOST=postgres:5432
+
+    volumes:
+      - gitea_data:/data
+      - /home/git/.ssh/:/data/git/.ssh
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+
+    ports:
+      - "0.0.0.0:3000:3000"
+      - "127.0.0.1:2222:22"
+
+    networks:
+      - database-access
+
+networks:
+  gitea:
+    external: false
+  database-access:
+    external: true
+volumes:
+  gitea_data:
+    external: true
