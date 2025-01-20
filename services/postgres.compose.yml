@@ -31,10 +31,3 @@ services:
     networks:
       - database-access
 
-volumes:
-  postgres_data:
-    external: true
-networks:
-  database-access:
-    name: database-access
-    external: true

@@ -1,0 +1,21 @@
+include:
+  - services/gitea.compose.yml
+  - services/grafana.compose.yml
+  - services/llm.compose.yml
+  - services/minecraft.compose.yml
+  - services/postgres.compose.yml
+  - services/prometheus.compose.yml
+
+volumes:
+  postgres_data:
+    external: true
+  gitea_data:
+    external: true
+  ollama:
+  open-webui:
+networks:
+  database-access:
+    external: true
+  llm:
+  gitea:
+    external: false

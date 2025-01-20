@@ -49,10 +49,3 @@ services:
 
     networks:
       - llm
-
-volumes:
-  ollama:
-  open-webui:
-
-networks:
-  llm:

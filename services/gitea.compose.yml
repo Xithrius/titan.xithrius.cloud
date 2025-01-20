@@ -35,11 +35,3 @@ services:
     networks:
       - database-access
 
-networks:
-  gitea:
-    external: false
-  database-access:
-    external: true
-volumes:
-  gitea_data:
-    external: true

@@ -1,0 +1,17 @@
+datasources:
+- uid: prometheus
+  orgId: 1
+  name: prometheus
+  type: prometheus
+  typeName: Prometheus
+  access: proxy
+  url: http://prometheus:9090
+  password: ""
+  user: ""
+  database: ""
+  basicAuth: false
+  isDefault: true
+  jsonData:
+    httpMethod: POST
+  readOnly: false
+  editable: true
